@@ -1,0 +1,298 @@
+{% block content %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<div class="booking-bg page-bg d-flex justify-content-center align-items-center">
+  <div class="page-content w-100 d-flex justify-content-center">
+    <div class="card shadow-lg p-4 col-md-8">
+      <h3 class="text-center mb-4">Book Your Slot</h3>
+
+      <form id="bookingForm" method="POST" 
+      action="{{ url_for('booking', popup='true') }}"
+      data-logged-in="{{ 'true' if session.get('user_id') else 'false' }}">
+        <div class="mb-3">
+          <label class="form-label">Name</label>
+          <input type="text" name="name" class="form-control" 
+          value="{{ current_user.name if current_user else '' }}" readonly>
+        </div>
+
+
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" name="email" class="form-control" 
+          value="{{ current_user.email if current_user else '' }}" readonly>
+        </div>
+
+
+        <div class="mb-3">
+          <label class="form-label">Contact Number</label>
+          <input type="text" name="contact_number" class="form-control" 
+          value="{{ current_user.contact_number if current_user else '' }}" required>
+        </div>
+
+        {% if selected_event %}
+  <div class="mb-3">
+    <label class="form-label">Event</label>
+    <input type="text" class="form-control" value="{{ selected_event.name }}" readonly>
+    <input type="hidden" name="event" value="{{ selected_event.name }}">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Price</label>
+    <input type="text" class="form-control" value="₹{{ selected_event.price }}" readonly>
+    <input type="hidden" name="price" value="{{ selected_event.price }}">
+  </div>
+{% else %}
+  <label for="event">Select Event</label>
+  <select id="event" name="event" class="form-control">
+      <option value="" data-price="0">--select--</option>
+      {% for event in events %}
+      <option value="{{ event.name }}" data-price="{{ event.price }}">{{ event.name }}</option>
+      {% endfor %}
+  </select>
+
+  <label for="price">Price</label>
+  <input type="text" id="price" name="price" class="form-control" value="₹0" readonly>
+{% endif %}
+
+<div class="form-group">
+    <!-- Checkbox to toggle single date -->
+    <label>
+        <input type="checkbox" id="singleDateToggle" onchange="toggleDateFields()">
+        Book for a single date
+    </label>
+</div>
+
+<!-- Single date field -->
+<div class="form-group" id="singleDateField" style="display:none;">
+    <label for="date">Date</label>
+    <input type="date" class="form-control" id="date" name="date" placeholder="dd-mm-yyyy">
+</div>
+
+<!-- Date range fields -->
+<div class="form-group" id="dateRangeFields">
+    <label for="from_date">From</label>
+    <input type="date" class="form-control" id="from_date" name="from_date" placeholder="dd-mm-yyyy">
+
+    <label for="to_date">To</label>
+    <input type="date" class="form-control" id="to_date" name="to_date" placeholder="dd-mm-yyyy">
+</div>
+
+
+
+<div class="form-group">
+  <label for="from_time">From Time:</label>
+  <div class="input-group" id="fromTimePicker" data-td-target-input="nearest" data-td-target-toggle="nearest">
+    <input id="from_time" name="from_time" type="text" class="form-control" data-td-target="#fromTimePicker" placeholder="Select time">
+    <span class="input-group-text" data-td-toggle="datetimepicker">
+      <i class="bi bi-clock"></i>
+    </span>
+  </div>
+</div>
+
+<div class="form-group">
+  <label for="to_time">To Time:</label>
+  <div class="input-group" id="toTimePicker" data-td-target-input="nearest" data-td-target-toggle="nearest">
+    <input id="to_time" name="to_time" type="text" class="form-control" data-td-target="#toTimePicker" placeholder="Select time">
+    <span class="input-group-text" data-td-toggle="datetimepicker">
+      <i class="bi bi-clock"></i>
+    </span>
+  </div>
+</div>
+
+        <div class="d-flex justify-content-center gap-3 mt-3">
+    <button type="submit" name="action"  value="cart" class="btn btn-primary">
+        Add to Cart
+    </button>
+    <button type="submit" name="action" value="pay" class="btn btn-success">
+        Pay Now
+    </button>
+</div>
+<script>
+document.querySelector('form').addEventListener('submit', () => {
+  const singleDate = document.getElementById('date').value;
+  const fromDate = document.getElementById('from_date').value;
+  const toDate = document.getElementById('to_date').value;
+
+  // If single date is empty, fill it with range values
+  if (!singleDate && (fromDate || toDate)) {
+    document.getElementById('date').value = fromDate || toDate;
+  }
+});
+</script>
+</form>
+<div id="cart-popup" class="alert alert-success position-fixed top-0 end-0 m-3" style="display:none; z-index:1050;">
+    ✅ Added to cart!
+</div>
+    </div>
+  </div>
+</div>
+
+<!-- Login/Signup Modal -->
+<div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="authModalLabel">Please Sign In</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p>You need to be logged in to confirm your booking.</p>
+        <a href="{{ url_for('login') }}" class="btn btn-success w-100 mb-2">Login</a>
+        <a href="{{ url_for('signup') }}" class="btn btn-primary w-100">Sign Up</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.7.10/dist/css/tempus-dominus.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.7.10/dist/js/tempus-dominus.min.js"></script>
+
+
+<script>
+
+document.getElementById('event').addEventListener('change', function() {
+  const selectedOption = this.options[this.selectedIndex];
+  const price = selectedOption.getAttribute('data-price');
+  document.getElementById('price').value = price ? `₹${price}` : '₹0';
+});
+
+const fromPicker = new tempusDominus.TempusDominus(document.getElementById('fromTimePicker'), {
+    display: {
+      components: {
+        calendar: false,
+        date: false,
+        hours: true,
+        minutes: true,
+        seconds: false
+      }
+    },
+    localization: {
+      hourCycle: 'h12',
+      format: 'hh:mm t', // ✅ use tt for AM/PM
+      locale: 'en'        // ✅ ensures English AM/PM text
+    }
+  });
+
+  const toPicker = new tempusDominus.TempusDominus(document.getElementById('toTimePicker'), {
+    display: {
+      components: {
+        calendar: false,
+        date: false,
+        hours: true,
+        minutes: true,
+        seconds: false
+      }
+    },
+    localization: {
+      hourCycle: 'h12',
+      format: 'hh:mm t',
+      locale: 'en'
+    }
+  });
+
+["date", "from_date", "to_date"].forEach(function(id) {
+    const field = document.getElementById(id);
+    if (field) {
+      field.addEventListener("click", function() {
+        this.showPicker();
+      });
+    }
+  });
+
+function toggleDateFields() {
+  const singleDateToggle = document.getElementById("singleDateToggle");
+  const singleDateField = document.getElementById("singleDateField");
+  const dateRangeFields = document.getElementById("dateRangeFields");
+
+  if (singleDateToggle.checked) {
+    singleDateField.style.display = "block";
+    dateRangeFields.style.display = "none";
+  } else {
+    singleDateField.style.display = "none";
+    dateRangeFields.style.display = "block";
+  }
+}
+
+function showCartPopup() {
+    const popup = document.getElementById("cart-popup");
+    popup.style.display = "block";
+    setTimeout(() => {
+      popup.style.display = "none";
+    }, 1000); // disappears after 1 second
+  }
+
+  // Attach to Add to Cart button
+  document.querySelector("button[name='action'][value='cart']").addEventListener("click", function() {
+    showCartPopup();
+  });
+
+const eventSelect = document.getElementById('event');
+  const priceField = document.getElementById('price');
+
+  eventSelect.addEventListener('change', function() {
+    const selectedOption = eventSelect.options[eventSelect.selectedIndex];
+    priceField.value = "₹" + selectedOption.getAttribute("data-price");
+  });
+
+  // Initialize with first option
+  const firstOption = eventSelect.options[0];
+  priceField.value = "₹" + firstOption.getAttribute("data-price");
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize Flatpickr for time selection
+  flatpickr("#timePicker", {
+    enableTime: true,
+    noCalendar: true,
+    dateFormat: "h:i K", // 12-hour format with AM/PM
+    minuteIncrement: 5,
+    defaultHour: 12,
+    defaultMinute: 0
+  });
+ // Date picker
+  flatpickr("#datePicker", {
+    dateFormat: "Y-m-d",
+    disable: JSON.parse('{{ booked_dates|tojson|safe }}'), // disables booked dates
+    minDate: "today" // ✅ greys out all past dates
+  });
+
+  // ✅ Proper JSON parsing so VS Code sees valid JS
+  const bookedDates = JSON.parse('{{ booked_dates|tojson|safe }}');
+
+  const dateInput = document.getElementById('datePicker');
+  dateInput.addEventListener('input', function() {
+    if (bookedDates.includes(this.value)) {
+      alert("❌ No slots available for this date!");
+      this.value = ""; // clear selection
+    }
+  });
+
+  // Booking form login check
+  const bookingForm = document.getElementById('bookingForm');
+  bookingForm.addEventListener('submit', function(event) {
+    const isLoggedIn = bookingForm.getAttribute('data-logged-in') === 'true';
+    if (!isLoggedIn) {
+      event.preventDefault();
+      const authModal = new bootstrap.Modal(document.getElementById('authModal'));
+      authModal.show();
+    }
+  });
+});
+document.getElementById('from_time').addEventListener('change', function() {
+    console.log('From time selected:', this.value);
+  });
+
+  document.getElementById('to_time').addEventListener('change', function() {
+    console.log('To time selected:', this.value);
+  });
+  // Before submit, copy single date into range fields
+document.getElementById("bookingForm").addEventListener("submit", function() {
+  const singleDateToggle = document.getElementById("singleDateToggle");
+  if (singleDateToggle.checked) {
+    const singleDate = document.getElementById("date").value;
+    document.getElementById("from_date").value = singleDate;
+    document.getElementById("to_date").value = singleDate;
+  }
+});
+</script>
+{% endblock %}

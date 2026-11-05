@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="catalogue-heading">Our <em>Signature Services</em></h2>\n<p class="catalogue-intro">Thoughtfully captured. Beautifully remembered. Explore the perfect experience for your occasion.</p>
+<div class="booking-bg page-bg d-flex justify-content-center align-items-center row">
+  {% for event in events %}
+  <div class="col-md-4">
+    <div class="card mb-3">
+      <div class="card-body c c-h">
+        <h5 class="card-title">{{ event.name }}</h5>
+        <p class="card-text">Price: ₹{{ event.price }}/hour</p>
+        <a href="{{ url_for('catalogue_booking', event=event.name, price=event.price) }}" 
+           class="btn btn-primary">
+          Book Now
+        </a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- Booking Modal -->
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-body" id="bookingModalBody">
+        <!-- Booking form will be injected here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Auth Modal -->
+<div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="authModalLabel">Please Sign In</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p>You need to be logged in to confirm your booking.</p>
+        <a href="{{ url_for('login') }}" class="btn btn-success w-100 mb-2">Login</a>
+        <a href="{{ url_for('signup') }}" class="btn btn-primary w-100">Sign Up</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll(".btn-primary").forEach(btn => {
+    btn.addEventListener("click", function(e) {
+      e.preventDefault();
+      const url = this.getAttribute("href");
+      fetch(url)
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById("bookingModalBody").innerHTML = html;
+          new bootstrap.Modal(document.getElementById("bookingModal")).show();
+        });
+    });
+  });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-center mb-4">Your Cart</h2>
+
+{% if cart_items %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Event</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Price/hour</th>
+      <th>Price</th>
+      <th class="text-end">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in cart_items %}
+    <tr>
+      <td>{{ item.event }}</td>
+
+      <!-- ✅ Date display -->
+      <td>
+        {% if item.from_date and item.to_date %}
+          {{ item.from_date }} <strong>to</strong> {{ item.to_date }}
+        {% elif item.date %}
+          {{ item.date }}
+        {% else %}
+          —
+        {% endif %}
+      </td>
+
+      <!-- ✅ Time display -->
+      <td>
+        {% if item.from_time and item.to_time %}
+          {{ item.from_time }} <strong>to</strong> {{ item.to_time }}
+        {% else %}
+          —
+        {% endif %}
+      </td>
+
+      <td>₹{{ item.per_hour|inr }}</td>
+
+      <td>₹{{ item.price|inr }}</td>
+
+      <td class="text-end">
+        <!-- Remove button -->
+        <form action="{{ url_for('remove_from_cart', index=loop.index0) }}" method="post" style="display:inline;">
+          <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+        </form>
+
+        <!-- Pay Now button -->
+        <form action="{{ url_for('pay_now', index=loop.index0) }}" method="post" style="display:inline;">
+          <button type="submit" class="btn btn-success btn-sm">Pay Now</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- ✅ Checkout summary -->
+<div class="row mt-4">
+  <div class="col-md-6 offset-md-3 text-center">
+    {% set subtotal = cart_items | map(attribute='price') | map('int') | sum %}
+    {% set gst = (subtotal * 0.18) | round(2) %}
+    {% set grand_total = subtotal + gst %}
+
+    <div class="card p-3 mt-4">
+      <h5 class="mb-3">Order Summary</h5>
+      <p>Subtotal: ₹{{subtotal|inr}}</p>
+      <p>GST (18%): ₹{{gst|inr}}</p>
+      <hr>
+      <h4>Grand Total: ₹{{ grand_total|inr }}</h4>
+    </div>
+
+    <div class="text-center mt-3">
+      <a href="#" class="btn btn-lg btn-success">Checkout</a>
+    </div>
+  </div>
+</div>
+
+{% else %}
+<p class="text-center mt-3">🛒 Your cart is empty.</p>
+{% endif %}
+{% endblock %}

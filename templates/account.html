@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="account-bg page-bg">
+  <div class="container page-content py-4">
+
+    <h3 class="text-center mb-4">My Account</h3>
+
+    <!-- Top two squares -->
+    <div class="row mb-4">
+      <!-- Left: User Info -->
+      <div class="col-md-6">
+        <div class="contact-box p-4 rounded shadow bg-light h-100">
+          <h4 class="mb-3">User Details</h4>
+          <p><strong>Name:</strong> {{ user.name }}</p>
+          <p><strong>Email:</strong> {{ user.email }}</p>
+          <p><strong>Contact Number:</strong> {{ user.contact_number if user.contact_number else "Not provided" }}</p>
+          <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#editUserModal">Edit</button>
+        </div>
+      </div>
+
+      <!-- Right: Feedback & Complaint -->
+      <div class="col-md-6">
+        <div class="contact-box p-4 rounded shadow bg-light h-100">
+          <h4 class="mb-3">Feedback & Complaints</h4>
+          <form method="POST" action="{{ url_for('feedback') }}">
+            <div class="mb-3">
+              <label class="form-label">Feedback</label>
+              <textarea class="form-control" name="feedback" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Submit Feedback</button>
+          </form>
+          <hr>
+          <form method="POST" action="{{ url_for('complaint') }}">
+            <div class="mb-3">
+              <label class="form-label">Complaint</label>
+              <textarea class="form-control" name="complaint" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-danger">Submit Complaint</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom full-width square -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="contact-box p-4 rounded shadow bg-light">
+          <h4 class="mb-3">Bookings</h4>
+
+          <!-- Upcoming Bookings -->
+          <h5 class="mt-3">Upcoming Bookings</h5>
+          {% set upcoming_bookings = bookings | selectattr("status", "equalto", "Pending") | list %}
+          {% if upcoming_bookings %}
+          <table class="table table-striped mt-2">
+            <thead>
+              <tr>
+                <th>Event</th>
+                <th>Date Range</th>
+                <th>Time Range</th>
+                <th>Price</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for booking in upcoming_bookings %}
+              <tr>
+                <td>{{ booking.event }}</td>
+                <td>{{ booking.from_date.strftime("%d %b %Y") }} → {{ booking.to_date.strftime("%d %b %Y") }}</td>
+                <td>{{ booking.from_time.strftime("%I:%M %p") }} → {{ booking.to_time.strftime("%I:%M %p") }}</td>
+                <td>₹{{ booking.price }}</td>
+                <td><span class="badge bg-warning text-dark">Pending</span></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% else %}
+          <p>No upcoming bookings.</p>
+          {% endif %}
+
+          <!-- Completed Bookings -->
+          <h5 class="mt-4">Completed Bookings</h5>
+          {% set completed_bookings = bookings | selectattr("status", "equalto", "Completed") | list %}
+          {% if completed_bookings %}
+          <table class="table table-striped mt-2">
+            <thead>
+              <tr>
+                <th>Event</th>
+                <th>Date Range</th>
+                <th>Time Range</th>
+                <th>Price</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for booking in completed_bookings %}
+              <tr>
+                <td>{{ booking.event }}</td>
+                <td>{{ booking.from_date.strftime("%d %b %Y") }} → {{ booking.to_date.strftime("%d %b %Y") }}</td>
+                <td>{{ booking.from_time.strftime("%I:%M %p") }} → {{ booking.to_time.strftime("%I:%M %p") }}</td>
+                <td>₹{{ booking.price }}</td>
+                <td><span class="badge bg-success">Completed</span></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% else %}
+          <p>No completed bookings yet.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Edit User Modal -->
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow-lg">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="editUserModalLabel">Edit User Details</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="{{ url_for('update_user') }}">
+          <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" name="name" value="{{ user.name }}" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" value="{{ user.email }}" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Contact Number</label>
+            <input type="text" class="form-control" name="contact_number" value="{{ user.contact_number }}">
+          </div>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

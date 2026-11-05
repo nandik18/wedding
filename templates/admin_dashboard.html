@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+
+<body class="admin-body">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg admin-navbar navbar-dark px-3">
+    <div class="container">
+      <a class="navbar-brand" href="{{ url_for('admin_bookings') }}"><img src="{{ url_for('static', filename='images/avx.jpg') }}" alt="AVX Cinematics Logo" class="nav-logo"></a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Tabs in center -->
+      <div class="collapse navbar-collapse justify-content-center" id="navbarTabs">
+        <ul class="navbar-nav admin-tabs">
+          <li class="nav-item">
+            <a class="nav-link {% if active_tab == 'bookings' %}active{% endif %}" href="{{ url_for('admin_bookings') }}">Bookings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if active_tab == 'users' %}active{% endif %}" href="{{ url_for('admin_users') }}">Users</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if active_tab == 'complaints' %}active{% endif %}" href="{{ url_for('admin_complaints') }}">Complaints</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Admin dropdown on right -->
+      <div class="d-flex align-items-center ms-auto">
+      <div class="dropdown">
+        <a class="nav-link dropdown-toggle account-btn {% if request.endpoint in ['exit_admin_mode','admin_login'] %}active{% endif %}" href="#" id="authDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {{ session.get('admin_name')|capitalize }}
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="authDropdown">
+          <li><a class="dropdown-item" href="{{ url_for('exit_admin_mode') }}">Exit Admin Mode</a></li>
+          <li><a class="dropdown-item" href="{{ url_for('admin_login') }}">Change User</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<!-- Tab content -->
+<div class="tab-content container mt-4">
+  {% if active_tab == 'bookings' %}
+    <div class="tab-pane fade show active" id="bookings" role="tabpanel">
+      {% include 'bookings_table.html' %}
+    </div>
+  {% elif active_tab == 'users' %}
+    <div class="tab-pane fade show active" id="users" role="tabpanel">
+      {% include 'users_table.html' %}
+    </div>
+  {% elif active_tab == 'complaints' %}
+    <div class="tab-pane fade show active" id="complaints" role="tabpanel">
+      {% include 'complaints_table.html' %}
+    </div>
+  {% endif %}
+</div>
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

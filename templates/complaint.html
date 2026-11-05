@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="complaint-bg page-bg d-flex justify-content-center align-items-center">
+  <div class="page-content w-100 d-flex justify-content-center">
+    <div class="card shadow-lg p-4 col-md-8">
+      <h3 class="text-center mb-4">Submit a Complaint</h3>
+      <form method="POST">
+        <div class="mb-3">
+          <label class="form-label">Name</label>
+          <input type="text" name="name" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" name="email" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Message</label>
+          <textarea name="message" class="form-control" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-danger w-100">Submit Complaint</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

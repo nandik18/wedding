@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="login-bg page-bg d-flex justify-content-center align-items-center">
+  <div class="page-content w-100 d-flex justify-content-center">
+    <div class="card shadow-lg p-4 col-md-6">
+      <h3 class="text-center mb-4">Login</h3>
+      <form method="POST" action="{{ url_for('login') }}">
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="text" name="email" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input type="password" name="password" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-success w-100">Login</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Signup Suggestion Modal -->
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="signupModalLabel">No Account Found</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p>We couldn’t find an account with that email. Would you like to sign up?</p>
+        <a href="{{ url_for('signup') }}" class="btn btn-primary w-100">Go to Signup</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if get_flashed_messages(with_categories=true) %}
+  {% for category, message in get_flashed_messages(with_categories=true) %}
+    {% if category == 'no_account' %}
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          var signupModal = new bootstrap.Modal(document.getElementById('signupModal'));
+          signupModal.show();
+        });
+      </script>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{% endblock %}

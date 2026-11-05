@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="signup-bg page-bg d-flex justify-content-center align-items-center">
+  <div class="page-content w-100 d-flex justify-content-center">
+    <div class="card shadow-lg p-4 col-md-6">
+      <h3 class="text-center mb-4">Create Account</h3>
+      <form method="POST">
+        <div class="mb-3">
+          <label class="form-label">Name</label>
+          <input type="text" name="name" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" name="email" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Contact Number</label>
+          <input type="text" name="contact_number" class="form-control" placeholder="Enter your contact number" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input type="password" name="password" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

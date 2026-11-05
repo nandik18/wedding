@@ -1,0 +1,50 @@
+<!-- Bookings Section -->
+<div class="table-responsive">
+    <h4 class="mt-5">Bookings</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.id }}</td>
+                <td>{{ booking.name }}</td>
+                <td>{{ booking.date }}</td>
+                <td>{{ booking.time }}</td>
+                 <td>
+                    {% if booking.status == "Pending" %}
+                        <span class="badge bg-warning">Pending</span>
+                    {% elif booking.status == "Approved" %}
+                        <span class="badge bg-success">Approved</span>
+                    {% elif booking.status == "Rejected" %}
+                        <span class="badge bg-danger">Rejected</span>
+                    {% elif booking.status == "Completed" %}
+                        <span class="badge bg-info">Completed</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Unknown</span>
+                    {% endif %}
+                 </td>
+                <td>
+                    <form action="{{ url_for('approve_booking', id=booking.id) }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                    </form>
+                    <form action="{{ url_for('reject_booking', id=booking.id) }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm"
+                                onclick="return confirm('Are you sure you want to reject this booking?');">
+                            Reject
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

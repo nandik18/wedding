@@ -1,0 +1,406 @@
+/* Global body styling */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  padding-top: 70px; /* adjust based on navbar height */
+}
+
+/* Navbar fixed at top */
+.navbar {
+  background-color: #000; /* solid black */
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+  margin-bottom: 0;
+  padding: 0.5rem 1.5rem;
+}
+
+/* Navbar brand logo */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo {
+  height: 60px;
+  max-width: 200px;
+  width: 100%;
+  border-radius: 8px;
+  margin-right: 15px;
+  object-fit: contain;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.nav-logo:hover {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 8px #ffc107);
+}
+
+/* Navbar links */
+.nav-link {
+  color: #ddd !important;
+  font-weight: 600; /* bold everywhere */
+  margin: 0 10px;
+}
+
+.nav-link.active {
+  color: #ffc107 !important;
+  border-bottom: 2px solid #ffc107;
+}
+
+.nav-link:hover {
+  color: #ffc107 !important;
+  transition: color 0.3s ease;
+}
+
+/* Account/Login dropdown button styling */
+.account-btn {
+  background-color: #ffc107 !important;
+  color: #000 !important;
+  border-radius: 25px;
+  padding: 8px 18px;
+  font-weight: 600; /* bold everywhere */
+  margin-left: 50px;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+/* Ensure text is always visible */
+.account-btn:focus,
+.account-btn:active,
+.account-btn.show,
+.account-btn.dropdown-toggle {
+  color: #000 !important;
+  background-color: #ffc107 !important;
+  box-shadow: none;
+}
+
+/* Hover state */
+.account-btn:hover {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+/* Dropdown caret arrow visibility */
+.account-btn::after {
+  border-top-color: #000 !important;
+}
+
+/* Dropdown menu styling */
+.dropdown-menu {
+  background-color: #000;
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  min-width: 160px;
+}
+
+.dropdown-item {
+  color: #fff;
+  font-weight: 600; /* bold dropdown items */
+}
+
+.dropdown-item:hover {
+  background-color: #ffc107;
+  color: #000;
+}
+
+/* Three-line menu icon styling (only visible when logged in) */
+.menu-icon {
+  font-size: 1.3rem;
+  margin-right: 6px;
+  color: #000;
+  vertical-align: middle;
+}
+
+/* Push content below navbar */
+.container-fluid {
+  padding-top: 80px;
+}
+
+/* Common blurred overlay for all backgrounds */
+.page-bg {
+  position: relative;
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.page-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+  z-index: 0;
+}
+
+/* Page content sits above overlay */
+.page-content {
+  position: relative;
+  z-index: 1;
+  color: white;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+}
+
+/* Center catalogue heading */
+.catalogue-heading {
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Card improvements without removing your blur/background setup */
+.c {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+}
+
+.c-h {
+  transform: scale(1.05);
+}
+.bootstrap-timepicker-widget.dropdown-menu {
+  z-index: 1050; /* keeps the dropdown above other elements */
+}
+
+
+/* Backgrounds for each page */
+.login-bg { background-image: url("images/login.jpg"); }
+.signup-bg { background-image: url("images/signup.jpg"); }
+.booking-bg { background-image: url("images/booking.jpg"); }
+.complaint-bg { background-image: url("images/complaint.jpg"); }
+.contact-bg { background-image: url("images/contact.jpg"); }
+.catalogue-bg { background-image: url("images/booking.jpg"); }
+
+/* Hero carousel backgrounds */
+.hero-bg1 { background-image: url("images/wedding_bg1.jpg"); }
+.hero-bg2 { background-image: url("images/wedding_bg2.jpg"); }
+.hero-bg3 { background-image: url("images/wedding_bg3.jpg"); }
+.hero-bg4 { background-image: url("images/wedding_bg4.jpg"); }
+
+/* Event gallery squares */
+.event-wedding { background-image: url("images/wedding_photography.jpg"); }
+.event-engagement { background-image: url("images/engagement_shoot.jpg"); }
+.event-birthday { background-image: url("images/birthday_event.jpg"); }
+.event-corporate { background-image: url("images/corporate_event.jpg"); }
+.event-prewedding { background-image: url("images/prewedding_shoot.jpg"); }
+.event-anniversary { background-image: url("images/anniversary_celebration.jpg"); }
+.event-concert { background-image: url("images/music_concert.jpg"); }
+.event-fashion { background-image: url("images/fashion_show.jpg"); }
+.event-product { background-image: url("images/product_launch.jpg"); }
+.event-school { background-image: url("images/school_event.jpg"); }
+
+.contact-box {
+  min-height: 300px;
+  background: rgba(255,255,255,0.95);
+  color: #000;
+}
+
+.contact-bg {
+  min-height: auto; /* remove forced tall height */
+  margin-top: 0;    /* ensure no gap above */
+  padding-top: 0;   /* remove extra padding */
+}
+
+
+.chat-bubble {
+  max-width: 80%;
+  padding: 10px 15px;
+  margin: 5px;
+  border-radius: 15px;
+  font-size: 0.95rem;
+}
+
+.user-bubble {
+  background-color: #d0ebff; /* light blue */
+  color: #000;
+  margin-left: auto; /* push to right */
+  text-align: right;
+}
+
+.ai-bubble {
+  background-color: #fff; /* white */
+  color: #000;
+  margin-right: auto; /* push to left */
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+/* Common square styling */
+.event-square {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.caption-overlay {
+  background: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+  text-align: center;
+}
+.carousel-caption h2,
+.carousel-caption p {
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.9);
+}
+
+
+/* Card styling */
+.card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: #0069d9;
+  border-radius: 8px;
+  border: none;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-radius: 8px;
+  border: none;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-radius: 8px;
+  border: none;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+/* Fix disappearing text on click */
+.btn-primary:active,
+.btn-primary:focus,
+.btn-success:active,
+.btn-success:focus,
+.btn-danger:active,
+.btn-danger:focus {
+  color: #fff !important;
+  background-color: inherit;
+  box-shadow: none;
+}
+
+/* Press animation for cinematic feel */
+.btn:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease;
+}
+
+/* Smooth dropdown animation */
+.dropdown-menu.show {
+  animation: fadeInDown 0.25s ease-in-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 768px) {
+  .page-content {
+    margin-top: 0;
+  }
+}
+@media (min-width: 769px) {
+  .page-content {
+    margin-top: 0;
+  }
+}
+
+
+/* Admin dropdown button */
+.admin-btn {
+  background-color: #ffc107 !important;
+  color: #000 !important;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  border: none;
+  margin-right: 10px;
+}
+
+/* Hover + active states */
+.admin-btn:hover,
+.admin-btn:focus,
+.admin-btn:active,
+.admin-btn.show {
+  background-color: #fff !important;
+  color: #000 !important;
+  box-shadow: 0 0 10px #f1c40f;
+  outline: none !important;
+}
+
+/* Dropdown caret arrow */
+.admin-btn::after {
+  border-top-color: #000 !important;
+}
+
+/* Dropdown menu */
+.admin-dropdown-menu {
+  display: none; /* Hidden by default */
+  position: absolute !important;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background-color: #000 !important;
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  min-width: 180px;
+  padding: 0.5rem 0;
+  z-index: 1050;
+}
+
+/* Show only when Bootstrap adds .show */
+.dropdown.show .admin-dropdown-menu {
+  display: block !important;
+}
+
+/* Dropdown items */
+.admin-dropdown-item {
+  color: #fff !important;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 10px 18px;
+  transition: background-color 0.3s ease;
+}
+
+.admin-dropdown-item:hover {
+  background-color: #ffc107 !important;
+  color: #000 !important;
+}
+
+/* Navbar stacking context */
+.admin-navbar {
+  position: relative;
+  z-index: 1000;
+}
+
+/* Body background */
+.admin-body {
+  background-color: #111;
+  color: #f1c40f;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.alert {
+  display: none !important;
+}

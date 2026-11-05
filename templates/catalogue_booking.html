@@ -1,0 +1,71 @@
+<div class="p-3">
+  <h4>Book {{ event }}</h4>
+  {% if user %}
+  <form method="POST" action="{{ url_for('catalogue_booking', event=event, price=price) }}">
+    <!-- Hidden fields -->
+    <input type="hidden" name="event" value="{{ event }}">
+    <input type="hidden" name="price" value="{{ price }}">
+
+    <div class="mb-3">
+      <label class="form-label">Your Name</label>
+      <input type="text" class="form-control" name="name" value="{{ user.name }}" readonly>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Email</label>
+      <input type="email" class="form-control" name="email" value="{{ user.email }}" readonly>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Contact Number</label>
+      <input type="text" class="form-control" name="contact_number" value="{{ user.contact_number }}" readonly>
+    </div>
+
+    <!-- <div class="form-check mb-2">
+      <input class="form-check-input" type="checkbox" id="singleDateCheck">
+      <label class="form-check-label" for="singleDateCheck">Single Date</label>
+    </div> -->
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">From Date</label>
+        <input type="date" class="form-control" id="fromDate" name="from_date" required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">To Date</label>
+        <input type="date" class="form-control" id="toDate" name="to_date" required>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Start Time</label>
+        <input type="time" class="form-control" name="from_time" required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">End Time</label>
+        <input type="time" class="form-control" name="to_time" required>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-between">
+      <button type="submit" name="action" value="cart" class="btn btn-warning">Add to Cart</button>
+      <button type="submit" name="action" value="pay" class="btn btn-success">Pay Now</button>
+    </div>
+  </form>
+  {% else %}
+  <script>
+    new bootstrap.Modal(document.getElementById("authModal")).show();
+  </script>
+  {% endif %}
+</div>
+
+<script>
+document.getElementById("singleDateCheck")?.addEventListener("change", function() {
+  const toDate = document.getElementById("toDate");
+  if (this.checked) {
+    toDate.disabled = true;
+    toDate.value = document.getElementById("fromDate").value;
+  } else {
+    toDate.disabled = false;
+  }
+});
+</script>

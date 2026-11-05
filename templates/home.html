@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="cinema-home">
+  <section class="cinema-hero" id="top" aria-label="AV Cinematic introduction">
+    <div class="hero-photo" data-parallax="0.16"></div>
+    <div class="hero-shade"></div>
+    <div class="hero-grain" aria-hidden="true"></div>
+    <div class="hero-inner container">
+      <div class="hero-copy reveal visible">
+        <span class="eyebrow"><span class="eyebrow-line"></span> THE ART OF REMEMBERING</span>
+        <h1>Every moment.<br><em>A masterpiece.</em></h1>
+        <p>Where fleeting moments become timeless films. Beautifully crafted wedding stories and unforgettable event experiences.</p>
+        <div class="hero-actions"><a class="lux-btn lux-btn-primary" href="{{ url_for('booking') }}">BOOK YOUR STORY <i class="bi bi-arrow-up-right"></i></a><a class="lux-btn lux-btn-outline" href="#portfolio">EXPLORE OUR WORK <i class="bi bi-arrow-down-right"></i></a></div>
+      </div>
+      <div class="hero-side-note"><span>01 / 04</span><span class="side-rule"></span><span>YOUR STORY, CINEMATICALLY TOLD</span></div>
+    </div>
+    <div class="hero-bottom container"><span><i class="bi bi-record-circle"></i> AV CINEMATIC · WEDDING & EVENTS</span><a href="#intro" class="scroll-prompt">SCROLL TO EXPLORE <i class="bi bi-arrow-down"></i></a></div>
+  </section>
+
+  <section class="intro-section section-pad" id="intro">
+    <div class="container intro-layout">
+      <div class="intro-left reveal"><span class="eyebrow"><span class="eyebrow-line"></span> A LITTLE ABOUT US</span><h2>Not just photographs.<br><em>Feelings you can revisit.</em></h2></div>
+      <div class="intro-right reveal"><p>Some days deserve more than a memory. We bring an editorial eye and a cinematic soul to every wedding, celebration and event — preserving the atmosphere, the emotion and every beautiful detail.</p><a class="text-link" href="{{ url_for('contact') }}">LET'S CREATE SOMETHING BEAUTIFUL <i class="bi bi-arrow-up-right"></i></a></div>
+    </div>
+    <div class="container signature-line"><span>THE BEAUTY IS IN THE DETAILS</span><span class="ornament">✦</span><span>CRAFTED WITH HEART</span></div>
+  </section>
+
+  <section class="portfolio-section section-pad" id="portfolio">
+    <div class="container"><div class="section-heading reveal"><div><span class="eyebrow"><span class="eyebrow-line"></span> OUR SIGNATURE WORK</span><h2>Stories worth <em>telling.</em></h2></div><a href="{{ url_for('catalogue') }}" class="text-link">ALL SERVICES <i class="bi bi-arrow-up-right"></i></a></div>
+      <div class="portfolio-grid">
+        <a href="{{ url_for('catalogue') }}" class="portfolio-card portfolio-large tilt-card reveal" style="--card-image: url('{{ url_for('static', filename='images/wedding_photography.jpg') }}')"><div class="portfolio-card-image"></div><span class="card-number">01 / SIGNATURE</span><div class="portfolio-card-content"><span>THE BEGINNING OF FOREVER</span><h3>Wedding <em>Stories</em></h3><span class="round-arrow"><i class="bi bi-arrow-up-right"></i></span></div></a>
+        <a href="{{ url_for('catalogue') }}" class="portfolio-card tilt-card reveal" style="--card-image: url('{{ url_for('static', filename='images/prewedding_shoot.jpg') }}')"><div class="portfolio-card-image"></div><span class="card-number">02 / ROMANCE</span><div class="portfolio-card-content"><span>BEFORE THE BIG DAY</span><h3>Pre-Wedding <em>Films</em></h3><span class="round-arrow"><i class="bi bi-arrow-up-right"></i></span></div></a>
+        <a href="{{ url_for('catalogue') }}" class="portfolio-card tilt-card reveal" style="--card-image: url('{{ url_for('static', filename='images/corporate_event.jpg') }}')"><div class="portfolio-card-image"></div><span class="card-number">03 / EXPERIENCES</span><div class="portfolio-card-content"><span>MOMENTS THAT MATTER</span><h3>Events & <em>Celebrations</em></h3><span class="round-arrow"><i class="bi bi-arrow-up-right"></i></span></div></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="statement-section" aria-label="Our creative philosophy"><div class="statement-bg" data-parallax="0.12"></div><div class="statement-overlay"></div><div class="container statement-content reveal"><span class="eyebrow">THE AV CINEMATIC EXPERIENCE</span><span class="statement-star">✳</span><h2>Because the best moments<br>deserve to feel <em>infinite.</em></h2><a href="{{ url_for('booking') }}" class="lux-btn lux-btn-primary">LET'S MAKE MEMORIES <i class="bi bi-arrow-up-right"></i></a></div></section>
+
+  <section class="services-section section-pad" id="services"><div class="container"><div class="section-heading reveal"><div><span class="eyebrow"><span class="eyebrow-line"></span> EVERY OCCASION, BEAUTIFULLY CAPTURED</span><h2>Made for <em>your moments.</em></h2></div><p>From intimate celebrations to spectacular events, we capture it all.</p></div>
+    <div class="services-grid">
+      {% set services = [('Engagement Shoots', 'engagement_shoot.jpg', '01'), ('Birthday Events', 'birthday_event.jpg', '02'), ('Anniversary Celebrations', 'anniversary_celebration.jpg', '03'), ('Music Concerts', 'music_concert.jpg', '04'), ('Fashion Shows', 'fashion_show.jpg', '05'), ('Product Launches', 'product_launch.jpg', '06'), ('School Events', 'school_event.jpg', '07'), ('Corporate Events', 'corporate_event.jpg', '08')] %}
+      {% for name, image, number in services %}<a class="service-tile tilt-card reveal" href="{{ url_for('catalogue') }}"><div class="service-image" style="background-image:url('{{ url_for('static', filename='images/' ~ image) }}')"></div><span class="service-number">{{ number }}</span><div class="service-info"><h3>{{ name }}</h3><i class="bi bi-arrow-up-right"></i></div></a>{% endfor %}
+    </div>
+    <div class="services-bottom reveal"><span>YOUR MOMENTS. OUR PASSION.</span><a href="{{ url_for('catalogue') }}" class="text-link">EXPLORE ALL SERVICES <i class="bi bi-arrow-up-right"></i></a></div>
+  </div></section>
+
+  <section class="process-section section-pad"><div class="container"><div class="section-heading reveal"><div><span class="eyebrow"><span class="eyebrow-line"></span> THE EXPERIENCE</span><h2>Simple steps. <em>Extraordinary stories.</em></h2></div></div><div class="process-grid"><div class="process-item reveal"><span>01</span><i class="bi bi-chat-heart"></i><h3>Let's Connect</h3><p>Tell us about your vision, your people and the moments that matter.</p></div><div class="process-item reveal"><span>02</span><i class="bi bi-camera-reels"></i><h3>We Create</h3><p>We capture your celebration with intention, artistry and care.</p></div><div class="process-item reveal"><span>03</span><i class="bi bi-stars"></i><h3>Relive Forever</h3><p>Experience your story again through images that never lose their magic.</p></div></div></div></section>
+
+  <section class="final-cta"><div class="container reveal"><span class="eyebrow">YOUR NEXT CHAPTER STARTS HERE</span><h2>Let's make something <em>unforgettable.</em></h2><p>We'd love to hear the story you're dreaming of.</p><div class="hero-actions"><a class="lux-btn lux-btn-primary" href="{{ url_for('booking') }}">BOOK YOUR EVENT <i class="bi bi-arrow-up-right"></i></a><a class="lux-btn lux-btn-outline" href="{{ url_for('contact') }}">GET IN TOUCH <i class="bi bi-arrow-up-right"></i></a></div></div></section>
+</main>
+{% endblock %}
